@@ -1,0 +1,90 @@
+{
+  "project": "ARC LUNA \u2014 LUNAR LANDING SITE NAVIGATOR",
+  "competition": "NASA Space Apps Challenge 2026",
+  "team": [
+    "Daksh",
+    "Sumith",
+    "Kevin",
+    "Aakarsh",
+    "Roshan",
+    "Dhruva"
+  ],
+  "assets_deliverables": {
+    "moon_surface_glb": "moon_surface.glb",
+    "lunar_lander_glb": "lunar_lander.glb",
+    "lunar_rover_glb": "lunar_rover.glb",
+    "south_pole_terrain_glb": "south_pole_terrain.glb",
+    "moon_surface_obj": "moon_surface.obj",
+    "moon_surface_mtl": "moon_surface.mtl",
+    "textures_directory": "lunar_surface_textures/",
+    "heightmap_geotiff": "lunar_heightmap.tif",
+    "metadata_document": "lunar_surface_metadata.json"
+  },
+  "geodetic_reference": {
+    "coordinate_system": "MOON_ME (Mean Earth / Polar Axis frame)",
+    "mean_radius_m": 1737400.0,
+    "polar_radius_m": 1736000.0,
+    "equatorial_radius_m": 1738100.0,
+    "standard_surface_g_mps2": 1.6237
+  },
+  "digital_elevation_model": {
+    "dataset_name": "NASA LRO LOLA Gridded Data Record (LDEM_80S_30M)",
+    "latitude_bounds": [
+      -90.0,
+      -84.0
+    ],
+    "longitude_bounds": [
+      0.0,
+      360.0
+    ],
+    "vertical_datum": "Moon Mean Sphere (1737.4 km radius)",
+    "vertical_resolution_m": 0.5,
+    "primary_features": [
+      "Shackleton Crater Rim (-89.9\u00b0 S, 0.0\u00b0 E)",
+      "Malapert Mountain / Massif (-85.99\u00b0 S, 2.92\u00b0 E)",
+      "Connecting Ridge (-89.44\u00b0 S, 222.6\u00b0 E)",
+      "de Gerlache Rim (-88.5\u00b0 S, 271.7\u00b0 E)",
+      "Haworth Crater Rim (-87.4\u00b0 S, 355.0\u00b0 E)",
+      "Nobile Crater Rim 1 (-85.2\u00b0 S, 35.8\u00b0 E)"
+    ]
+  },
+  "spacecraft_specifications": {
+    "lander": {
+      "dry_mass_kg": 4500.0,
+      "wet_mass_kg": 14200.0,
+      "solar_panel_area_m2": 6.0,
+      "pv_efficiency": 0.3,
+      "selectable_subsystems": [
+        "Subsystem_MainCabin",
+        "Subsystem_DescentEngine",
+        "Subsystem_LandingLeg_1",
+        "Subsystem_LandingLeg_2",
+        "Subsystem_LandingLeg_3",
+        "Subsystem_LandingLeg_4",
+        "Subsystem_SolarArray_Port",
+        "Subsystem_SolarArray_Starboard",
+        "Subsystem_HighGainAntenna",
+        "Subsystem_NavCam_LIDAR"
+      ]
+    },
+    "rover": {
+      "mass_kg": 350.0,
+      "mobility_system": "6-wheel articulated rocker-bogie",
+      "max_velocity_kmph": 0.5,
+      "selectable_components": [
+        "Rover_ChassisBody",
+        "Rover_SolarPanelDeck",
+        "Rover_Wheel_FrontLeft",
+        "Rover_Wheel_FrontRight",
+        "Rover_Wheel_MidLeft",
+        "Rover_Wheel_MidRight",
+        "Rover_Wheel_RearLeft",
+        "Rover_Wheel_RearRight",
+        "Rover_CameraMast",
+        "Rover_PanoramicStereoCamera",
+        "Rover_RoboticArm"
+      ]
+    }
+  },
+  "disclaimer": "CANDIDATE LANDING LOCATION \u2014 REQUIRES FURTHER ENGINEERING VALIDATION"
+}

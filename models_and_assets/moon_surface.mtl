@@ -1,0 +1,10 @@
+# ARC LUNA Material Template Library
+newmtl LunarRegolith
+Ka 0.15 0.15 0.15
+Kd 0.75 0.75 0.77
+Ks 0.05 0.05 0.05
+Ns 12.0
+d 1.0
+illum 2
+map_Kd lunar_surface_textures/albedo.png
+map_Bump lunar_surface_textures/normal.png
