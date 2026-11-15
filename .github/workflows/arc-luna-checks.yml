@@ -24,3 +24,7 @@ jobs:
       - name: Run tests
         working-directory: arc-luna-app
         run: python -m pytest -q
+      - name: Check browser JavaScript syntax
+        run: |
+          node --check arc-luna-app/static/app.js
+          node --check --input-type=module < arc-luna-app/static/globe.js
