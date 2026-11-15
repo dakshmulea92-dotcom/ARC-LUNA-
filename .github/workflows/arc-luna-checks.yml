@@ -1,0 +1,26 @@
+name: ARC LUNA checks
+
+on:
+  push:
+    branches: [main, arc-luna-app]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  python-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install core and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r arc-luna-app/requirements.txt -r arc-luna-app/requirements-dev.txt
+      - name: Compile Python modules
+        run: python -m compileall -q arc-luna-app
+      - name: Run tests
+        working-directory: arc-luna-app
+        run: python -m pytest -q
