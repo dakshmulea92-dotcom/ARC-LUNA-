@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d19">
+  <title>ARC LUNA — LUNASIGHT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">◒</div><div><b>ARC LUNA</b><span>LUNASIGHT / MISSION SYSTEMS</span></div></div>
+      <div class="nav-label">MISSION WORKSPACE</div>
+      <nav>
+        <a class="active" href="#overview">◈ <span>Mission overview</span></a>
+        <a href="#explorer">◎ <span>Lunar explorer</span></a>
+        <a href="#illumination">☼ <span>Sun & illumination</span></a>
+        <a href="#earth">⌁ <span>Earth visibility</span></a>
+        <a href="#compare">⊞ <span>Site comparison</span></a>
+        <a href="#sources">⌑ <span>Scientific sources</span></a>
+      </nav>
+      <div class="sidebar-bottom"><span class="live-dot"></span> HORIZONS CONNECTION <b id="connection">CHECKING</b><small>LOCAL RESEARCH BUILD · v0.1</small></div>
+    </aside>
+
+    <main>
+      <header class="topbar"><div><span class="eyebrow">LUNAR SURFACE OPERATIONS / 01</span><h1>Mission overview</h1></div><div class="top-right"><span class="utc" id="clock">UTC --:--:--</span><span class="status-pill"><i></i> RESEARCH MODE</span></div></header>
+      <section class="hero" id="overview">
+        <div class="hero-copy"><div class="eyebrow">2026 SPACE APPS CHALLENGE · LUNAR LANDING SITE NAVIGATOR</div><h2>See the Moon<br><em>in mission time.</em></h2><p>Compare sunlight and direct-to-Earth geometric visibility across lunar locations and dates — with scientific provenance and uncertainty kept in view.</p><a class="text-link" href="#explorer">OPEN SITE ANALYSIS <span>↘</span></a></div>
+        <div class="moon-art"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="moon"><div class="crater c1"></div><div class="crater c2"></div><div class="crater c3"></div><div class="terminator"></div></div><div class="sun-point"></div><div class="earth-point"></div><span class="orb-label sun-label">SUN VECTOR</span><span class="orb-label earth-label">EARTH VECTOR</span></div>
+        <div class="hero-index">01 <span>/ 09</span></div>
+      </section>
+
+      <section class="control-panel" id="explorer">
+        <div class="section-head"><div><span class="eyebrow">01 / OBSERVER CONFIGURATION</span><h3>Define a landing site</h3></div><span class="source-tag">LIVE EPHEMERIS · JPL</span></div>
+        <div class="controls">
+          <label>LATITUDE <small>degrees · north positive</small><input id="lat" type="number" min="-90" max="90" step="0.01" value="-89.50"></label>
+          <label>LONGITUDE <small>degrees · east positive</small><input id="lon" type="number" min="-180" max="180" step="0.01" value="0.00"></label>
+          <label>MISSION DATE <small>UTC calendar date</small><input id="date" type="date"></label>
+          <label>WINDOW <small>hours · max 168</small><select id="hours"><option value="24">24 hours</option><option value="48" selected>48 hours</option><option value="72">72 hours</option><option value="168">7 days</option></select></label>
+          <label>TIME STEP <small>sampling interval</small><select id="step"><option>10m</option><option>30m</option><option selected>1h</option><option>2h</option><option>6h</option></select></label>
+          <button id="analyse" class="primary">RUN ANALYSIS <span>↗</span></button>
+        </div>
+        <div class="notice"><span>ⓘ</span><div><b>Coordinate convention</b> Lunar geodetic latitude, east-positive longitude and altitude in kilometres. Horizons observer output is referenced to the ideal geometric horizon; local terrain is not yet applied.</div></div>
+      </section>
+
+      <section class="metrics" id="illumination">
+        <div class="metric-card"><span class="metric-label">SUN ELEVATION · CURRENT SAMPLE</span><strong id="sunElev">—</strong><small id="sunAz">Azimuth —</small><div class="metric-rule amber"></div></div>
+        <div class="metric-card"><span class="metric-label">EARTH ELEVATION · CURRENT SAMPLE</span><strong id="earthElev">—</strong><small id="earthAz">Azimuth —</small><div class="metric-rule blue"></div></div>
+        <div class="metric-card"><span class="metric-label">SAMPLED SUNLIT TIME</span><strong id="sunHours">—</strong><small>Within selected window · geometric</small><div class="metric-rule amber"></div></div>
+        <div class="metric-card"><span class="metric-label">SAMPLED EARTH-VISIBLE TIME</span><strong id="earthHours">—</strong><small>Within selected window · geometric</small><div class="metric-rule blue"></div></div>
+      </section>
+
+      <section class="chart-grid">
+        <article class="panel"><div class="panel-head"><div><span class="eyebrow">02 / SOLAR GEOMETRY</span><h3>Sun above horizon</h3></div><span class="legend amber">● SUN</span></div><canvas id="sunChart" height="190"></canvas><div class="chart-foot"><span>Elevation · degrees</span><span>0° = geometric horizon</span></div></article>
+        <article class="panel" id="earth"><div class="panel-head"><div><span class="eyebrow">03 / EARTH GEOMETRY</span><h3>Earth above horizon</h3></div><span class="legend blue">● EARTH</span></div><canvas id="earthChart" height="190"></canvas><div class="chart-foot"><span>Elevation · degrees</span><span>0° = geometric horizon</span></div></article>
+      </section>
+
+      <section class="panel compare-panel" id="compare">
+        <div class="panel-head"><div><span class="eyebrow">04 / MISSION SCENARIO COMPARISON</span><h3>Compare another coordinate</h3><p>Same date and sampling window. Trade-offs are shown as measurements, not a safety score.</p></div></div>
+        <div class="compare-controls"><label>SECOND SITE LATITUDE<input id="lat2" type="number" min="-90" max="90" step="0.01" value="-89.00"></label><label>SECOND SITE LONGITUDE<input id="lon2" type="number" min="-180" max="180" step="0.01" value="30.00"></label><button class="secondary" id="compareBtn">COMPARE SITES ↗</button></div>
+        <div id="comparison" class="comparison-empty">Run a site analysis, then compare a second coordinate to reveal measured differences.</div>
+      </section>
+
+      <section class="panel sources" id="sources"><div class="panel-head"><div><span class="eyebrow">05 / PROVENANCE & LIMITATIONS</span><h3>Science you can inspect</h3></div><span class="source-tag">TRANSPARENT BY DESIGN</span></div>
+        <div class="source-grid">
+          <div><b>POSITION DATA</b><p>NASA/JPL Horizons observer ephemerides. Sun target 10, Earth target 399, lunar centre 301.</p><a href="https://ssd.jpl.nasa.gov/horizons/" target="_blank" rel="noreferrer">JPL HORIZONS ↗</a></div>
+          <div><b>TERRAIN DATA</b><p>LOLA elevation products are the intended basis for a future local horizon profile. Not currently loaded in this build.</p><a href="https://pds-geosciences.wustl.edu/missions/lro/lola.htm" target="_blank" rel="noreferrer">NASA PDS LOLA ↗</a></div>
+          <div><b>VISIBILITY MODEL</b><p>Positive elevation means above an ideal 0° horizon. Crater rims, ridges, slopes and antenna masks are not represented.</p><span class="muted">GEOMETRIC ONLY</span></div>
+          <div><b>POWER & COMMS</b><p>No panel output or operational link budget is inferred. Incidence angle, hardware, thermal limits and DSN constraints remain outside scope.</p><span class="muted">NOT FLIGHT CERTIFIED</span></div>
+        </div>
+        <div class="disclaimer"><b>DATA INTEGRITY NOTICE</b><span id="resultNote">No analysis loaded. This application does not use fabricated or fallback ephemeris measurements.</span></div>
+      </section>
+      <footer><span>ARC LUNA — LUNASIGHT</span><span>EXPLORE. ANALYSE. COMPARE. NAVIGATE THE MOON.</span><span>LOCALHOST / 8000</span></footer>
+    </main>
+  </div>
+  <div id="toast" role="status"></div>
+  <script src="/static/app.js"></script>
+</body></html>
