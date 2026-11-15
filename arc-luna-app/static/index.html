@@ -41,7 +41,7 @@
           <label>MISSION DATE <small>UTC calendar date</small><input id="date" type="date"></label>
           <label>WINDOW <small>hours · max 168</small><select id="hours"><option value="24">24 hours</option><option value="48" selected>48 hours</option><option value="72">72 hours</option><option value="168">7 days</option></select></label>
           <label>TIME STEP <small>sampling interval</small><select id="step"><option>10m</option><option>30m</option><option selected>1h</option><option>2h</option><option>6h</option></select></label>
-          <button id="analyse" class="primary">RUN ANALYSIS <span>↗</span></button>
+          <div class="action-stack"><button id="analyse" class="primary">RUN ANALYSIS <span>↗</span></button><button id="export" class="secondary" disabled>EXPORT CSV ↓</button></div>
         </div>
         <div class="notice"><span>ⓘ</span><div><b>Coordinate convention</b> Lunar geodetic latitude, east-positive longitude and altitude in kilometres. Horizons observer output is referenced to the ideal geometric horizon; local terrain is not yet applied.</div></div>
       </section>
