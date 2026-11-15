@@ -71,6 +71,11 @@ def compute_horizon(lat_deg: float, lon_deg: float, radius_km: float = 20.0,
     if not (0.5 <= radius_km <= 50):
         raise ValueError("Terrain radius must be between 0.5 and 50 km.")
 
+    if azimuth_step_deg not in {2, 5, 10, 15}:
+        raise ValueError("Azimuth step must be 2, 5, 10 or 15 degrees.")
+    if not (20 <= radial_step_m <= 1000):
+        raise ValueError("Radial step must be between 20 and 1000 metres.")
+
     geographic = CRS.from_proj4(f"+proj=longlat +R={MOON_RADIUS_M} +no_defs")
     profiles = []
     total_samples = 0
@@ -85,7 +90,7 @@ def compute_horizon(lat_deg: float, lon_deg: float, radius_km: float = 20.0,
         if not (0 <= site_row < ds.height and 0 <= site_col < ds.width):
             raise RuntimeError("The selected site is outside this DEM's mapped coverage.")
         site_elev = float(ds.read(1, window=((site_row, site_row + 1), (site_col, site_col + 1)))[0, 0])
-        if ds.nodata is not None and math.isclose(site_elev, float(ds.nodata)):
+        if not math.isfinite(site_elev) or (ds.nodata is not None and math.isclose(site_elev, float(ds.nodata))):
             raise RuntimeError("The DEM has no valid elevation at the selected site.")
 
         max_distance = int(radius_km * 1000)
@@ -101,9 +106,7 @@ def compute_horizon(lat_deg: float, lon_deg: float, radius_km: float = 20.0,
                 if row < 0 or col < 0 or row >= ds.height or col >= ds.width:
                     continue
                 value = float(ds.read(1, window=((row, row + 1), (col, col + 1)))[0, 0])
-                if ds.nodata is not None and math.isclose(value, float(ds.nodata)):
-                    continue
-                if not math.isfinite(value):
+                if not math.isfinite(value) or (ds.nodata is not None and math.isclose(value, float(ds.nodata))):
                     continue
                 bearing_valid += 1
                 valid_samples += 1
@@ -133,9 +136,9 @@ def compute_horizon(lat_deg: float, lon_deg: float, radius_km: float = 20.0,
         "site_elevation_m": site_elev,
         "coverage_fraction": coverage,
         "profile": profiles,
-        "provenance": "Uploaded LOLA GeoTIFF; terrain elevations sampled from local file.",
-        "model": "Maximum sampled terrain elevation angle by azimuth; spherical lunar curvature correction.",
-        "limitations": "Sampling resolution and DEM pixel size limit skyline detail. This is not a landing-safety certification.",
+        "provenance": "Uploaded NASA PGDA LOLA GeoTIFF; terrain elevations sampled from local file. MOON_ME/DE421 frame compatibility with the selected lunar coordinates should be verified for precision work.",
+        "model": "Maximum sampled terrain elevation angle by azimuth; spherical lunar curvature correction using Moon radius 1,737.4 km.",
+        "limitations": "Sampling resolution and DEM pixel size limit skyline detail. The selected DEM must cover the requested radius. This is not a landing-safety certification; datum/frame compatibility must be independently checked for precision work.",
     }
 
 
