@@ -26,7 +26,7 @@ echo Installing required packages...
 ".venv\Scripts\python.exe" -m pip install -r requirements.txt
 if errorlevel 1 goto failed
 echo Starting ARC LUNA at http://127.0.0.1:8000
-start "" http://127.0.0.1:8000
+start "" cmd /c "timeout /t 2 >nul & start http://127.0.0.1:8000"
 ".venv\Scripts\python.exe" app.py
 goto end
 :failed
