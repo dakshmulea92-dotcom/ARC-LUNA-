@@ -20,6 +20,9 @@
         <a href="#illumination">☼ <span>Sun & illumination</span></a>
         <a href="#earth">⌁ <span>Earth visibility</span></a>
         <a href="#compare">⊞ <span>Site comparison</span></a>
+        <a href="#globe">◉ <span>3D lunar globe</span></a>
+        <a href="#terrain">⌁ <span>LOLA terrain</span></a>
+        <a href="#communications">⌁ <span>Communications</span></a>
         <a href="#sources">⌑ <span>Scientific sources</span></a>
       </nav>
       <div class="sidebar-bottom"><span class="live-dot"></span> HORIZONS CONNECTION <b id="connection">CHECKING</b><small>LOCAL RESEARCH BUILD · v0.1</small></div>
@@ -58,13 +61,43 @@
         <article class="panel" id="earth"><div class="panel-head"><div><span class="eyebrow">03 / EARTH GEOMETRY</span><h3>Earth above horizon</h3></div><span class="legend blue">● EARTH</span></div><canvas id="earthChart" height="190"></canvas><div class="chart-foot"><span>Elevation · degrees</span><span>0° = geometric horizon</span></div></article>
       </section>
 
+      <section class="panel globe-panel" id="globe">
+        <div class="panel-head"><div><span class="eyebrow">05 / INTERACTIVE LUNAR MODEL</span><h3>3D lunar globe</h3><p>Drag to rotate · scroll to zoom · select a point on the surface to set the analysis coordinates.</p></div><span class="source-tag">INTERACTIVE MODEL</span></div>
+        <div class="globe-layout"><div id="moonGlobe" aria-label="Interactive 3D Moon globe"></div><div class="globe-readout"><span class="eyebrow">SELECTED SURFACE POINT</span><strong id="globeLatLon">89.50° S / 0.00° E</strong><p id="globeHint">Click the globe to select a lunar coordinate. The texture is illustrative, not a scientific elevation map.</p><button id="useGlobeSite" class="secondary">USE SELECTED COORDINATES ↗</button></div></div>
+      </section>
+
+      <section class="panel terrain-panel" id="terrain">
+        <div class="panel-head"><div><span class="eyebrow">06 / LOLA TERRAIN ANALYSIS</span><h3>Local horizon profile</h3><p>Upload a georeferenced LOLA polar GeoTIFF. The server processes it locally and estimates the skyline by azimuth.</p></div><span class="source-tag">NASA PGDA / LOLA</span></div>
+        <div class="terrain-upload"><label>LOLA DEM GEOTIFF <small>GeoTIFF in the Moon ME lunar reference frame</small><input id="demFile" type="file" accept=".tif,.tiff"></label><button id="uploadDem" class="secondary">UPLOAD DEM ↗</button><button id="terrainAnalyse" class="primary">CALCULATE HORIZON ↗</button></div>
+        <div id="terrainStatus" class="analysis-note">Checking for a locally installed DEM…</div>
+        <div class="terrain-result"><canvas id="terrainChart" height="190"></canvas><div id="terrainSummary" class="analysis-note">Run the site analysis and calculate a local terrain horizon to compare apparent elevation against the sampled skyline.</div></div>
+      </section>
+
+      <section class="panel communications-panel" id="communications">
+        <div class="panel-head"><div><span class="eyebrow">07 / DIRECT-TO-EARTH LINK ESTIMATE</span><h3>Communications link budget</h3><p>Configure an illustrative RF system. The output is conditional on the entered hardware assumptions and visibility model.</p></div><span class="source-tag">ENGINEERING ESTIMATE</span></div>
+        <div class="radio-controls">
+          <label>FREQUENCY <small>MHz</small><input id="rfFrequency" type="number" value="2200" min="1" max="100000"></label>
+          <label>TRANSMIT POWER <small>watts</small><input id="rfPower" type="number" value="10" min="0.01" max="100000" step="0.1"></label>
+          <label>TX ANTENNA GAIN <small>dBi</small><input id="rfTxGain" type="number" value="20" step="0.1"></label>
+          <label>RX ANTENNA GAIN <small>dBi</small><input id="rfRxGain" type="number" value="40" step="0.1"></label>
+          <label>OTHER LOSSES <small>dB</small><input id="rfLosses" type="number" value="3" step="0.1"></label>
+          <label>NOISE FIGURE <small>dB</small><input id="rfNoise" type="number" value="2" step="0.1"></label>
+          <label>DATA RATE <small>bit/s</small><input id="rfRate" type="number" value="1000" min="1"></label>
+          <label>REQUIRED Eb/N0 <small>dB</small><input id="rfRequired" type="number" value="3" step="0.1"></label>
+          <button id="runLinkBudget" class="primary">CALCULATE LINK ↗</button>
+        </div>
+        <div id="linkSummary" class="analysis-note">Run the ephemeris analysis first. For terrain-masked link results, calculate the LOLA horizon first.</div>
+        <div id="linkTable"></div>
+        <div class="disclaimer"><b>IMPORTANT</b><span>This is a first-order free-space RF estimate, not a validated lunar radio system. It does not include antenna pointing, real receiver sensitivity, coding, Doppler acquisition, DSN scheduling, hardware test data or operational certification.</span></div>
+      </section>
+
       <section class="panel compare-panel" id="compare">
         <div class="panel-head"><div><span class="eyebrow">04 / MISSION SCENARIO COMPARISON</span><h3>Compare another coordinate</h3><p>Same date and sampling window. Trade-offs are shown as measurements, not a safety score.</p></div></div>
         <div class="compare-controls"><label>SECOND SITE LATITUDE<input id="lat2" type="number" min="-90" max="90" step="0.01" value="-89.00"></label><label>SECOND SITE LONGITUDE<input id="lon2" type="number" min="-180" max="180" step="0.01" value="30.00"></label><button class="secondary" id="compareBtn">COMPARE SITES ↗</button></div>
         <div id="comparison" class="comparison-empty">Run a site analysis, then compare a second coordinate to reveal measured differences.</div>
       </section>
 
-      <section class="panel sources" id="sources"><div class="panel-head"><div><span class="eyebrow">05 / PROVENANCE & LIMITATIONS</span><h3>Science you can inspect</h3></div><span class="source-tag">TRANSPARENT BY DESIGN</span></div>
+      <section class="panel sources" id="sources"><div class="panel-head"><div><span class="eyebrow">08 / PROVENANCE & LIMITATIONS</span><h3>Science you can inspect</h3></div><span class="source-tag">TRANSPARENT BY DESIGN</span></div>
         <div class="source-grid">
           <div><b>POSITION DATA</b><p>NASA/JPL Horizons observer ephemerides. Sun target 10, Earth target 399, lunar centre 301.</p><a href="https://ssd.jpl.nasa.gov/horizons/" target="_blank" rel="noreferrer">JPL HORIZONS ↗</a></div>
           <div><b>TERRAIN DATA</b><p>LOLA elevation products are the intended basis for a future local horizon profile. Not currently loaded in this build.</p><a href="https://pds-geosciences.wustl.edu/missions/lro/lola.htm" target="_blank" rel="noreferrer">NASA PDS LOLA ↗</a></div>
@@ -78,4 +111,5 @@
   </div>
   <div id="toast" role="status"></div>
   <script src="/static/app.js"></script>
+  <script type="module" src="/static/globe.js"></script>
 </body></html>
